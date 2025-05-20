@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Burn Note</title>
-    </head>
-    <body>
-        <!-- <input type="text" name="name" placeholder="Enter your secret message" />
-        <button type="submit">Submit</button> -->
-        <form action="/secret/" method="post">
-            <label for="secret_messsage">Enter your secret message </label>
-            <input id="secret_messsage" type="text" name="secret_messsage">
-            <input type="submit">
-        </form>
-    </body>
-</html>
+{% extends "app/layout.html" %}
+{% block title %}
+Burn Note
+{% endblock %}
+{% block content %}
+    <form action="/secret" method="post">
+        {% csrf_token %}
+        <label for="secret_messsage">Enter your secret message </label>
+        <textarea id="secret_messsage" type="text" name="secret_messsage" required></textarea>
+        <input type="submit">
+    </form>
+{% endblock %}

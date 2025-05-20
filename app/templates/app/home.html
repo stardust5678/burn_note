@@ -3,10 +3,30 @@
 Burn Note
 {% endblock %}
 {% block content %}
-    <form action="/secret" method="post">
-        {% csrf_token %}
-        <label for="secret_message">Enter your secret message </label>
-        <textarea id="secret_message" type="text" name="secret_message" required></textarea>
-        <input type="submit">
-    </form>
+<form id="secret-form">
+    <label for="secret_message">Enter your secret message </label>
+    <textarea id="secret-message" type="text" name="secret_message" required></textarea>
+    <button type="submit">Submit</button>
+</form>
+<p id="secret-url"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script>
+    document.getElementById("secret-form").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const secretMessage = document.getElementById("secret-message").value;
+        const aesKey = CryptoJS.lib.WordArray.random(16).toString();
+        const encryptedMessage = CryptoJS.AES.encrypt(secretMessage, aesKey).toString();
+        const response = await fetch("/secret", {
+            method: "POST",
+            headers: { "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ "encrypted_message": encryptedMessage })
+        });
+        const data = await response.json();
+        const url = `${window.location.origin}/s/${data.token}#${aesKey}`;
+        document.getElementById("secret-url").innerText = url;
+    })
+</script>
 {% endblock %}

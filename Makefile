@@ -9,4 +9,4 @@ start:
 	python manage.py runserver
 
 test:
-	python manage.py test
+	coverage run --rcfile=.coveragerc manage.py test

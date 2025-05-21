@@ -3,14 +3,23 @@
 Burn Note
 {% endblock %}
 {% block content %}
-<form id="secret-area">
-    <label for="secret_message">Enter your secret message </label>
-    <textarea id="secret-message" type="text" name="secret_message" required></textarea>
-    <button type="submit">Submit</button>
-</form>
+<div id="main-content" class="container">
+    <form id="secret-area">
+        <label class="form-label mt-4" for="secret_message">Enter your secret message </label>
+        <textarea class="form-control" rows="10" id="secret-message" type="text" name="secret_message" required></textarea>
+        <button class="btn btn-primary btn-lg submit-button" type="submit">🔥 Send & Burn</button>
+    </form>
+</div>
+<div id="secret-url-container"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
+    function copyToClipboard() {
+        const text = document.getElementById("secret-url").textContent;
+        navigator.clipboard.writeText(text);
+        document.getElementById("copy-button").innerText = "Copied!";
+    }
+
     document.getElementById("secret-area").addEventListener("submit", async function(e) {
         e.preventDefault();
         const secretMessage = document.getElementById("secret-message").value;
@@ -25,7 +34,8 @@ Burn Note
         });
         const data = await response.json();
         const url = `${window.location.origin}/s/${data.token}#${aesKey}`;
-        document.getElementById("secret-area").innerText = url;
-    })
+        document.getElementById("main-content").innerText = "";
+        document.getElementById("secret-url-container").innerHTML = `<p id="secret-url" class="mt-4">${url}</p><button id="copy-button" class="btn btn-secondary" onclick="copyToClipboard()">Copy</button>`;
+    });
 </script>
 {% endblock %}

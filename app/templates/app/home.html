@@ -3,14 +3,14 @@
 Burn Note
 {% endblock %}
 {% block content %}
-<div id="main-content" class="container">
-    <form id="secret-area">
+<div id="form-container" class="container">
+    <form id="secret-form">
         <label class="form-label mt-4" for="secret_message">Enter your secret message </label>
-        <textarea class="form-control" rows="10" id="secret-message" type="text" name="secret_message" required></textarea>
+        <textarea class="form-control" rows="20" id="secret-message" type="text" name="secret_message" required></textarea>
         <button class="btn btn-primary btn-lg submit-button" type="submit">🔥 Send & Burn</button>
     </form>
 </div>
-<div id="secret-url-container"></div>
+<div id="url-container" class="container"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
@@ -20,7 +20,7 @@ Burn Note
         document.getElementById("copy-button").innerText = "Copied!";
     }
 
-    document.getElementById("secret-area").addEventListener("submit", async function(e) {
+    document.getElementById("secret-form").addEventListener("submit", async function(e) {
         e.preventDefault();
         const secretMessage = document.getElementById("secret-message").value;
         const aesKey = CryptoJS.lib.WordArray.random(16).toString();
@@ -34,8 +34,8 @@ Burn Note
         });
         const data = await response.json();
         const url = `${window.location.origin}/s/${data.token}#${aesKey}`;
-        document.getElementById("main-content").innerText = "";
-        document.getElementById("secret-url-container").innerHTML = `<p id="secret-url" class="mt-4">${url}</p><button id="copy-button" class="btn btn-secondary" onclick="copyToClipboard()">Copy</button>`;
+        document.getElementById("form-container").innerText = "";
+        document.getElementById("url-container").innerHTML = `<p id="secret-url" class="mt-4">${url}</p><button id="copy-button" class="btn btn-secondary" onclick="copyToClipboard()">📋 Copy</button>`;
     });
 </script>
 {% endblock %}

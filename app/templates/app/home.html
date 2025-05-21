@@ -3,16 +3,15 @@
 Burn Note
 {% endblock %}
 {% block content %}
-<form id="secret-form">
+<form id="secret-area">
     <label for="secret_message">Enter your secret message </label>
     <textarea id="secret-message" type="text" name="secret_message" required></textarea>
     <button type="submit">Submit</button>
 </form>
-<p id="secret-url"></p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 <script>
-    document.getElementById("secret-form").addEventListener("submit", async function(e) {
+    document.getElementById("secret-area").addEventListener("submit", async function(e) {
         e.preventDefault();
         const secretMessage = document.getElementById("secret-message").value;
         const aesKey = CryptoJS.lib.WordArray.random(16).toString();
@@ -26,7 +25,7 @@ Burn Note
         });
         const data = await response.json();
         const url = `${window.location.origin}/s/${data.token}#${aesKey}`;
-        document.getElementById("secret-url").innerText = url;
+        document.getElementById("secret-area").innerText = url;
     })
 </script>
 {% endblock %}

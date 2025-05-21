@@ -1,9 +1,12 @@
 from django.urls import path
-from app import views
+from app import api, views
 
 urlpatterns = [
+    # APIs
+    path("secret", api.create_secret, name="create_secret"),
+    path("delete/<token>", api.delete_secret, name="delete_secret"),
+    
+    # Views
     path("", views.home, name="home"),
-    path("secret", views.create_secret, name="create_secret"),
     path("s/<token>", views.view_secret, name="view_secret"),
-    path("delete/<token>", views.delete_secret, name="delete_secret")
 ]

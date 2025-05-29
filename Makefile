@@ -1,19 +1,12 @@
-migrate:
-	python manage.py makemigrations
-	python manage.py migrate
-
-requirements:
-	pip install -qr requirements.txt --exists-action w
-
-start:
-	python manage.py runserver
-
 test:
 	coverage run --rcfile=.coveragerc manage.py test
 
+start-web:
+	npm run dev
+
 start-api:
 	$(MAKE) start-db
-	fastapi dev api/main.py
+	cd burn_note_api && fastapi dev api/main.py
 
 start-db:
 	docker ps -a --format '{{.Names}}' | grep -q '^burn-note-db$$' || \

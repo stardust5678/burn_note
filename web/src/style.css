@@ -1,0 +1,20 @@
+.body-content {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.submit-button {
+    margin-top: 1em;
+    float: right;
+}
+
+.message-box {
+  border: 1px solid #aaa;
+  background: #fefefe;
+  margin-top: 1em;;
+  padding: 1.2em;
+  min-height: 75vh;
+  max-height: 75vh;
+  border-radius: 0.6em;
+  overflow-y: auto;
+}

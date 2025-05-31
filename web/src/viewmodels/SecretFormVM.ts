@@ -17,13 +17,15 @@ export class SecretFormVM {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        // Log the error
+        throw new Error('Failed to send secret. Please try again.');
       }
 
       const data: SecretMessage = await response.json();
 
       return `${BASE_URL}/s/${data.token}#${aesKeyHex}`;
     } catch (error) {
+      // Log the error
       console.error("Error sending secret:", error);
       throw new Error("Failed to send secret. Please try again.");
     }

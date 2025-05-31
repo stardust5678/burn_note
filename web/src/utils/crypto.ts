@@ -1,6 +1,6 @@
 import type { EncryptedPayload } from "../types/encryptedPayload";
 
-// Function to convert ArrayBuffer to a hexadecimal string
+// Converts ArrayBuffer to a hexadecimal string
 function arrayBufferToHex(buffer: ArrayBuffer): string {
   return Array.prototype.map
     .call(new Uint8Array(buffer), (x: number) =>
@@ -9,7 +9,7 @@ function arrayBufferToHex(buffer: ArrayBuffer): string {
     .join("");
 }
 
-// Function to convert a hexadecimal string to ArrayBuffer
+// Converts a hexadecimal string to ArrayBuffer
 function hexToArrayBuffer(hexString: string): ArrayBuffer {
   if (hexString.length % 2 !== 0) {
     throw new Error("Hex string must have an even number of characters.");
@@ -127,12 +127,7 @@ export async function decryptMessageWebCryptoGCM(
 
     return decryptedMessage;
   } catch (error: any) {
-    // Use 'any' for error type if not specific, or 'DOMException'
     console.error("Decryption failed:", error);
-    // This error often means the message was tampered with or the key/IV is wrong.
-    // Web Crypto API typically throws a DOMException with name "OperationError" for integrity failures.
-    throw new Error(
-      `Decryption failed: ${error.message || "Unknown error"}. Data may be corrupted or tampered with.`,
-    );
+    throw new Error('Failed to decrypt message');
   }
 }

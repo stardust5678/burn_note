@@ -18,9 +18,9 @@ export function renderHomeView() {
     const url = await vm.submit(textarea.value);
     form.innerHTML = "";
     urlContainer.innerHTML = `
-            <p id="secret-url" class="mt-4">${url}</p>
-            <button id="copy-button" class="btn btn-secondary">📋 Copy</button>
-        `;
+      <p id="secret-url" class="mt-4">${url}</p>
+      <button id="copy-button" class="btn btn-secondary">📋 Copy</button>
+    `;
 
     const copyBtn = document.getElementById("copy-button");
     copyBtn?.addEventListener("click", copyToClipboard);

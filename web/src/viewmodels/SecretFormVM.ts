@@ -1,4 +1,3 @@
-import { API_BASE_URL, BASE_URL } from "../constants";
 import type { SecretMessage } from "../models/SecretMessage";
 import { encryptMessageWebCryptoGCM } from "../utils/crypto";
 
@@ -8,7 +7,7 @@ export class SecretFormVM {
       await encryptMessageWebCryptoGCM(secretMessage);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/secret`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/secret`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +22,7 @@ export class SecretFormVM {
 
       const data: SecretMessage = await response.json();
 
-      return `${BASE_URL}/s/${data.token}#${aesKeyHex}`;
+      return `${window.location.origin}/s/${data.token}#${aesKeyHex}`;
     } catch (error) {
       // Log the error
       console.error("Error sending secret:", error);

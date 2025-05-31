@@ -14,3 +14,6 @@ start-api:
 start-db:
 	docker ps -a --format '{{.Names}}' | grep -q '^burn-note-db$$' || \
 	docker run --name burn-note-db -e POSTGRES_PASSWORD=pass -e POSTGRES_DB=burn_note -p 5432:5432 -d postgres
+
+test-api:
+	pytest api/tests

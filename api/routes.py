@@ -23,7 +23,7 @@ async def get_secret(token: str, session: Session = Depends(get_async_session)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/", response_model=SecretMessagePublic)
+@router.post("", response_model=SecretMessagePublic)
 async def create_secret(dto: SecretMessageCreate, session: Session = Depends(get_async_session)):
     try:
         service = SecretMessageService(session)

@@ -3,10 +3,41 @@ A one-time secret sharing tool
 
 ## 🔐 Getting Started
 
+### Running With Docker
+To spin up the entire stack using Docker, run:
 ```
-make migrate
-make start
+make start-docker
 ```
+
+### Running Locally
+Alternatively, you can spin up the backend and frontend locally.
+
+#### Backend (FastAPI)
+From the root of the project:
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Start the FastAPI server:
+```
+make start-api
+```
+By default, it runs on http://localhost:8000.
+
+#### Frontend (ViteJS)
+From the root folder, run:
+```
+cd web && npm install
+```
+
+Start the Vite dev server:
+```
+make start-web
+```
+
+The app will be available at http://localhost:5173.
 
 ## 🗂️ Overview
 
@@ -18,12 +49,13 @@ This tool encrypts your secret message in the browser and creates a URL for shar
 
 ### Client-Side Encryption
 
-When a secret message is submitted through the form, a random encryption key is generated and used to encrypt the message using the AES algorithm. The encrypted message is stored to a SQLite database, keyed by a unique token. This token is used to create a shareable URL, while the encryption key is embedded in the URL as a `#fragment`.
+When a secret message is submitted through the form, a random encryption key is generated and used to encrypt the message using the AES-GCM algorithm. The encrypted message is stored to a PostgreSQL database, keyed by a unique token. This token is used to create a shareable URL, while the encryption key is embedded in the URL as a `#fragment`.
 
 The URL fragment is never sent to the server -- it remains entirely on the client side. When someone opens the shared link, the frontend extracts the key from the `#fragment`, sends the token to the server, and receives the encrypted message. The frontend then decrypts the message using the key in the browser.
 
 Once the message is viewed, it is immediately deleted from the database, making the link accessible only once.
 
-## 📚 Learnings
+## 🔮 Future Work
 
-This tool was built in Django as a way for me to rapidly experiment with the framework and deliver a working MVP. Django's feature rich framework wasn't strictly necessary for this project. Encryption is handled entirely on the frontend, which limited testability and reusability due to inline JavaScript in templates. Future improvements could include extracting the frontend into a standalone JavaScript app and using a more robust database like PostgreSQL for scalability and reliability.
+- A cron job to delete unread and expired messages
+- Improve styling
